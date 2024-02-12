@@ -77,7 +77,7 @@ app.get('/api/transactions', async (request, response)=>{
             {$limit: perPage},
             // {$skip: page * perPage},
         ]
-        const transaction = await Transaction.aggregate(pipeline);
+        const transaction = await Transaction.aggregate(pipeline).maxTimeMS(30000);
         
         response.status(200).json({transaction});
 
@@ -109,7 +109,7 @@ app.get('/api/statistics', async (request,response)=>{
                     totalAmount: {$sum: '$price'},
                 },
             },
-        ]).maxTimeMS(30000);
+        ]);
 
         //  TOTAL SOLD ITEMS
         const totalSoldItems = await Transaction.countDocuments({
