@@ -109,7 +109,7 @@ app.get('/api/statistics', async (request,response)=>{
                     totalAmount: {$sum: '$price'},
                 },
             },
-        ]);
+        ]).maxTimeMS(30000);
 
         //  TOTAL SOLD ITEMS
         const totalSoldItems = await Transaction.countDocuments({
