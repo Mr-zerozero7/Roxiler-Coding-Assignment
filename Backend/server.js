@@ -77,7 +77,7 @@ app.get('/api/transactions', async (request, response)=>{
             {$limit: perPage},
             // {$skip: page * perPage},
         ]
-        const transaction = await Transaction.aggregate(pipeline).option({ maxTimeMS: 30000 });
+        const transaction = await Transaction.aggregate(pipeline).option({ maxTimeMS: 60000 });
         
         response.status(200).json({transaction});
 
@@ -109,7 +109,7 @@ app.get('/api/statistics', async (request,response)=>{
                     totalAmount: {$sum: '$price'},
                 },
             },
-        ]);
+        ]).option({ maxTimeMS: 60000 });
 
         //  TOTAL SOLD ITEMS
         const totalSoldItems = await Transaction.countDocuments({
@@ -117,7 +117,7 @@ app.get('/api/statistics', async (request,response)=>{
                 $eq:[{$month: {$toDate: '$dateOfSale'}}, parseInt(month)],
             },
             sold: true,
-        });
+        }).option({ maxTimeMS: 60000 });
 
         //  TOTAL NOT SOLD ITEMS
         const totalNotSoldItems = await Transaction.countDocuments({
@@ -195,7 +195,7 @@ app.get('/api/bar-chart', async (request, response) =>{
             }
         ];
     
-        const result = await Transaction.aggregate(pipeline);
+        const result = await Transaction.aggregate(pipeline).option({ maxTimeMS: 60000 });
         response.status(200).json({result});
 
     } catch (error) {
