@@ -11,11 +11,10 @@ app.use(express.json());
 
 app.use(cors());
 
+MONGO_URL = 'mongodb+srv://vijaysai:krishNa07@cluster0.foghuqg.mongodb.net/?retryWrites=true&w=majority';
+
 //  MONGODB CONNECTION
-mongoose.connect(process.env.MONGO_URL, {
-    useNewUrlParser : true,
-    useUnifiedTopology: true
-})
+mongoose.connect(MONGO_URL)
 .then(()=>{
     console.log('Mongo Connected Successfully')
 })
